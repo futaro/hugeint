@@ -1,0 +1,26 @@
+{
+  "name": "hugeint.js",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "int",
+    "integer",
+    "number",
+    "huge",
+    "large"
+  ],
+  "author": "Masashi Machida <zxcvbnm4649@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}
