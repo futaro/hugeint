@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/futaro/hugeint"
   },
   "keywords": [
     "int",
@@ -20,7 +20,7 @@
   "author": "Masashi Machida <zxcvbnm4649@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/futaro/hugeint/issues"
   },
-  "homepage": ""
+  "homepage": "https://github.com/futaro/hugeint"
 }
