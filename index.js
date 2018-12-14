@@ -1,4 +1,4 @@
-const DIGIT_LENGTH = 64
+const DIGIT_LENGTH = 7 // 64
 
 class HugeInt {
 
@@ -13,7 +13,8 @@ class HugeInt {
   }
 
   sub (_value) {
-    const value = this._parse(_value).map(v => v * -1)
+    const value = this._parse(_value)
+    value[0] = !value[0]
     this._v = this._adder(this._v, value)
     return this
   }
@@ -50,15 +51,37 @@ class HugeInt {
   }
 
   toString () {
-    return this._v.slice().reverse().join('').replace(/^0+/, '') || '0'
+    const copy = this._v.slice()
+    const sign = copy.shift()
+    return (sign ? '' : '-') + copy.reverse().join('').replace(/^0+/, '') || '0'
   }
 
   _adder (a, b) {
-    a.reduce((carry, v, idx) => {
-      const sum = v + b[idx] + carry
-      a[idx] = (10 + sum) % 10
-      return Math.floor(sum / 10)
+    const sign_a = a.shift(), sign_b = b.shift()
+    let new_sign = sign_a
+
+    a.reduce((carry, current, idx) => {
+      let a_val = sign_a ? current : current * -1,
+        b_val = sign_b ? b[idx] : b[idx] * -1
+      let sum = a_val + b_val + carry
+
+      a[idx] = parseInt(sum.toString().charAt(sum.toString().length - 1))
+
+      if (a_val !== 0 && b_val !== 0 && sum !== 0) {
+        new_sign = sum >= 0
+      }
+
+      console.log(
+        `a_val : ${a_val}`,
+        `b_val : ${b_val}`,
+        `sum : ${sum}`,
+        `a[idx] : ${a[idx]}`,
+        `carry : ${carry}`
+      )
+
+      return Math.floor(Math.abs(sum) / 10)
     }, 0)
+    a.unshift(new_sign)
     return a
   }
 
@@ -66,10 +89,13 @@ class HugeInt {
     if (value.length > DIGIT_LENGTH) {
       throw 'overflow'
     }
-    let return_value = Array(DIGIT_LENGTH).fill(0)
+    const sign = !!!value.match(/^\-/)
+    if (!sign) value = value.replace(/^\-/, '')
+    let return_value = Array(DIGIT_LENGTH - 1).fill(0)
     value.split('').reverse().map((v, i) => {
       return_value[i] = parseInt(v)
     })
+    return_value.unshift(sign)
     return return_value
   }
 }
