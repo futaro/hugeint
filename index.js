@@ -8,13 +8,13 @@ class HugeInt {
 
   add (_value) {
     const value = this._parse(_value)
-    this._v = this._addr(this._v, value)
+    this._v = this._adder(this._v, value)
     return this
   }
 
   sub (_value) {
     const value = this._parse(_value).map(v => v * -1)
-    this._v = this._addr(this._v, value)
+    this._v = this._adder(this._v, value)
     return this
   }
 
@@ -34,7 +34,7 @@ class HugeInt {
     let new_v = Array(DIGIT_LENGTH).fill(0)
     sums.map((sum, idx) => {
       Array.prototype.splice.apply(sum, [0, 0].concat(Array(idx).fill(0)))
-      new_v = this._addr(new_v, sum)
+      new_v = this._adder(new_v, sum)
     })
     this._v = new_v
 
@@ -53,7 +53,7 @@ class HugeInt {
     return this._v.slice().reverse().join('').replace(/^0+/, '') || '0'
   }
 
-  _addr (a, b) {
+  _adder (a, b) {
     a.reduce((carry, v, idx) => {
       const sum = v + b[idx] + carry
       a[idx] = (10 + sum) % 10
